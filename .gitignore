@@ -1,0 +1,12 @@
+### Python #### 
+
+# General 
+venv/
+vevn/
+
+# 2.x
+*.pyc
+*.pyo
+
+# 3.x
+__pycache__
