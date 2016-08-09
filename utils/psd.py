@@ -1,4 +1,4 @@
-import version_check
+import utils.version_check
 from psd_tools import PSDImage
 from psd_tools.user_api import psd_image
 import sys
@@ -26,10 +26,8 @@ def psd_to_images(filename, merge_group=True) :
     for layers in psd.layers :
 
         if (isinstance(layers, psd_image.Layer) or merge_group) :
-            images.append(layers.as_PIL())
+            yield layers.as_PIL()
 
         else :
             for layer in layers.layers :
-                images.append(layer.as_PIL())                
-
-    yield images
+                  yield layer.as_PIL()
