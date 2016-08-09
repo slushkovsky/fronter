@@ -1,10 +1,12 @@
 import os
 import sys
-from argparse import ArgumentParser
 
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
 
+import utils.version_check
 from utils.psd import psd_to_images
+
+from argparse import ArgumentParser
 
 def args_pars() :
     parser = ArgumentParser(description='It takes .psd file and save all layers as images.')
