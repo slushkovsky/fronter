@@ -1,1 +1,5 @@
 selenium==2.53.6
+
+#To use utils/psd.py you need to install
+pip3 install psd-tools
+pip3 install Pillow
