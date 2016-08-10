@@ -2,7 +2,9 @@ import os
 import sys
 from argparse import ArgumentParser
 
-sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
+CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(os.path.join(CURRENT_DIR, '..'))
+
 import utils
 
 
@@ -33,6 +35,4 @@ if __name__ == '__main__':
 		args.out = utils.files.unexisted_file(os.getcwd(), '.png')
 
 
-	utils.browser.site_screenshot(url              =args.url,  
-		                          save_to          =args.out, 
-		                          warn_on_overwrite=warn_on_overwrite)
+	utils.browser.site_screenshot(url=args.url).save(args.out)

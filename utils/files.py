@@ -63,3 +63,11 @@ def __random_filename(ext, prefix='', rnd_key_len=16):
 		ext = ext[1:]
 
 	return '{prefix}{key}.{ext}'.format(prefix=prefix, key=key, ext=ext)
+
+
+def warn_on_overwrite(path): 
+	''' 
+		Logged warning in the case if files existed
+
+		@param path <str> Path to the file 
+	'''
