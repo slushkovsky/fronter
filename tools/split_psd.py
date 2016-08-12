@@ -6,7 +6,7 @@ sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
 import utils.version_check
 
 from argparse import ArgumentParser
-from psd_tools.exceptions import Error
+from psd_tools.exceptions import Error as psd_error
 
 from utils.psd import psd_to_images
 from utils import exc
@@ -50,5 +50,5 @@ try :
 except FileNotFoundError :
     raise
 
-except Error :
+except psd_error :
     raise
