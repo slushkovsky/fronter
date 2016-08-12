@@ -1,11 +1,15 @@
 import utils.version_check
-from psd_tools import PSDImage
-from psd_tools.user_api import psd_image
+
 import sys
 import warnings
 
-def psd_to_images(filename, merge_group=True) :
+from psd_tools import PSDImage
+from psd_tools.user_api import psd_image
+from psd_tools.exceptions import Error
 
+from utils import exc
+
+def psd_to_images(filename, merge_group=True) :
     '''
     parses .psd file
 
@@ -20,7 +24,15 @@ def psd_to_images(filename, merge_group=True) :
     if (not filename.endswith(".psd")) :
         warnings.warn("Wrong file extention")
 
-    psd = PSDImage.load(filename)
+    try :
+        psd = PSDImage.load(filename)
+
+    except FileNotFoundError :
+        raise 
+
+    except Error :
+        raise
+    
     images = []
 
     for layers in psd.layers :

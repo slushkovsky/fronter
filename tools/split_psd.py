@@ -4,9 +4,12 @@ import sys
 sys.path.append(os.path.join(os.path.dirname(os.path.realpath(__file__)), '..'))
 
 import utils.version_check
-from utils.psd import psd_to_images
 
 from argparse import ArgumentParser
+from psd_tools.exceptions import Error
+
+from utils.psd import psd_to_images
+from utils import exc
 
 def args_pars() :
     parser = ArgumentParser(description='It takes .psd file and save all layers as images.')
@@ -27,16 +30,25 @@ def args_pars() :
 
 path, wrap, dest, prefix = args_pars()
 
-if (not dest == '' and not dest.endswith('/')) :
-    dest += '/'
+if (not dest == '') :
 
-if (not dest == '' and not os.path.exists(dest)) :
-    os.makedirs(dest)
+    if (not dest.endswith('/')) :
+        dest += '/'
+
+    if (not os.path.exists(dest)) :
+        os.makedirs(dest)
 
 images = psd_to_images(path, wrap)
 
 count = 0
 
-for image in images :
-    image.save(dest + prefix + str(count) + ".png", "PNG")
-    count += 1
+try :
+    for image in images :
+        image.save(dest + prefix + str(count) + ".png", "PNG")
+        count += 1
+
+except FileNotFoundError :
+    raise
+
+except Error :
+    raise
