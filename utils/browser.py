@@ -4,13 +4,13 @@ from logbook import Logger
 from typing import Iterator
 from selenium import webdriver
 from collections import Iterable, namedtuple
+from geomtypes import Rect, Size
 
 from utils.files import unexisted_file
-from utils.geom import Rect
 
 logger = Logger('utils::browser')
 
-TagElem = namedtuple('TagImage', ['name', 'img'])
+TagElem = namedtuple('TagElem', ['name', 'img', 'classes'])
 Browser = webdriver.Firefox
 
 
@@ -53,24 +53,37 @@ def site_screenshot(url:     str              = None,
 
 def site_tags_images(url:      str, 
                      h_offset: float = 0.0, 
-                     w_offset: float = 0.0) -> Iterator[TagElem]: 
+                     w_offset: float = 0.0,
+                     min_size: Size  = None,
+                     max_size: Size  = None) -> Iterator[TagElem]: 
     '''
       Gets an images of the all site visible tags
 
       @url      - URL of the webpage 
       @h_offset - Tag image horizontal margin (relative to tag height)
       @w_offset - Tag image vertical margin   (relative to tag width) 
+      @min_size - Tag min size (in pixels). If None - check will be ignored
+      @max_size - Tag max size (in pixels). If None - check will be ignored
     '''
+
+    if min_size is None: 
+        min_size = Size.zero() 
+
+    if max_size is None:
+        max_size = Size.ever_biggest() 
 
     assert isinstance(url,      str)
     assert isinstance(h_offset, float)
     assert isinstance(w_offset, float)
+    assert isinstance(min_size, Size)
+    assert isinstance(max_size, Size)
 
     browser = Browser()
     browser.get(with_http(url)) # TODO: Check HTTP errors
-    browser_size = browser.get_window_size()
+    browser_size = Size(**browser.get_window_size())
 
     screen = site_screenshot(browser=browser)
+    screen_size = Size(*screen.size)
 
     elements = browser.find_elements_by_css_selector('*')
 
@@ -79,23 +92,33 @@ def site_tags_images(url:      str,
             logger.debug('Skipped tag {tag!r} (area = 0)'.format(tag=elem.tag_name))
             continue
 
-        r = Rect.from_selenium_element(elem)
+        x = elem.location['x']
+        y = elem.location['y']
+        width  = elem.size['width']
+        height = elem.size['height']
 
-        if r.x > browser_size['width'] or r.y > browser_size['height']:
-            continue
+        ok = (0 <= x < screen_size.width)                 and \
+             (0 <= y < screen_size.height)                and \
+             (width * height > 0)                         and \
+             (min_size.width  < width  < max_size.width)  and \
+             (min_size.height < height < max_size.height)
 
-        margin_h = r.width  * w_offset
-        margin_v = r.height * h_offset
+        if (ok):
+            r = Rect(x, y, width, height)
 
-        r.x      = max(r.x - margin_h / 2.0, 0)
-        r.y      = max(r.y - margin_v / 2.0, 0)
-        r.width  = min(r.width  + margin_h, browser_size['width']  - r.x)
-        r.height = min(r.height + margin_v, browser_size['height'] - r.y)
+            margin_h = r.width  * w_offset
+            margin_v = r.height * h_offset
 
-        if r.area() == 0.0: 
-          continue 
+            r.x      = max(r.x - margin_h / 2.0, 0)
+            r.y      = max(r.y - margin_v / 2.0, 0)
+            r.width  = min(r.width  + margin_h, screen_size.width  - r.x)
+            r.height = min(r.height + margin_v, screen_size.height - r.y)
 
-        yield TagElem(name=elem.tag_name, img=screen.crop(r))
+            r.validate()
+
+            yield TagElem(name   =elem.tag_name, 
+                          img    =screen.crop(r),
+                          classes=elem.get_attribute('class'))
 
     browser.close()
 
