@@ -14,8 +14,7 @@ def img_descriptor(name: str):
 	def decorator(f): 
 		@wraps(f)
 		def wrapper(img, **kw):
-			# assert PIL.Image.isImageType(img)
-			assert isinstance(img, np.ndarray)
+			assert PIL.Image.isImageType(img)
 
 			return f(img, **kw)
 
