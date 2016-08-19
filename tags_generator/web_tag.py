@@ -1,6 +1,9 @@
 from enum import Enum
 
 class TagType(Enum):
+	'''
+		Enum for css tags types
+	'''
 	unknown = 0
 
 	integer = 1
@@ -20,6 +23,17 @@ class TagType(Enum):
 class WebTag(object):
 	"""This class describes some tag for web element"""
 	def __init__(self, name, tag_type, values=None):
+		'''
+			Creates new WebTag object
+
+			@name - name of tag
+			@tag_type - name of tag_type
+			@values - values that can be for such tag (If None will use default for tag_type)
+		'''
+
+		assert isinstance(name, str)
+		assert isinstance(tag_type, TagType)
+
 		super(WebTag, self).__init__()
 		self.name = name
 		self.tag_type = tag_type
@@ -30,11 +44,22 @@ class WebTag(object):
 		self.values = values
 
 	def get_values(self):
+		'''
+			Generator that returns all values of tag
+		'''
 		for v in self.values:
 			yield v
 
 	@staticmethod
 	def get_standart_values(tag_type):
+		'''
+			Gets default values for specified tag
+
+			@tag_type - Type of tag
+		'''
+
+		assert isinstance(tag_type, TagType)
+
 		# TODO: Convert all to generators i think
 		if tag_type == TagType.integer or tag_type == TagType.integer_px:
 			return list(range(72))
@@ -51,6 +76,8 @@ class WebTag(object):
 		elif tag_type == TagType.font_family:
 			return [ "'Times New Roman', Times, serif" ]
 		elif tag_type == TagType.complex_tag:
+			return None
+		else:
 			return None
 
 color_tag = WebTag('color', TagType.color)

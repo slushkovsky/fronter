@@ -5,10 +5,20 @@ from web_tag import *
 class MultiWebTag(WebTag):
 	"""WebTag that has multiply tags inside (border as example)"""
 	def __init__(self, name, *web_tags):
+		'''
+			Creates new MultiwebTag
+
+			@name - Name of the tag
+			@web_tags - Tags of the tag
+		'''
 		super(MultiWebTag, self).__init__(name, TagType.complex_tag)
+
 		self.web_tags = web_tags
 
 	def get_values(self):
+		'''
+			Generator that returns all values of tag
+		'''
 		for tags in iterate_tags(self.web_tags):
 			yield ' '.join(str(t[1]) for t in tags)
 

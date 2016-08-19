@@ -1,4 +1,10 @@
 def iterate_tags(tags):
+	'''
+		Generates all values fot speciefed array of tags
+
+		@tags - list of web tags
+	'''
+
 	if len(tags) == 0:
 		yield [ ]
 	else:
