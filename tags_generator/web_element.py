@@ -1,4 +1,5 @@
 from web_tag import *
+from multi_web_tag import *
 
 class WebElement(object):
 	"""This class describes, which arguments iterate and how"""
@@ -9,9 +10,9 @@ class WebElement(object):
 		self.content = content
 		self.webtags = webtags
 		
-color = WebElement(
+color_element = WebElement(
 		'body',
 		None,
-		WebTag('opacity', TagType.float_int),
-		WebTag('border', TagType.integer)
+		opacity_tag,
+		border_tag
 	)

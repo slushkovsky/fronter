@@ -1,4 +1,5 @@
-from web_element import color
+from tags_utils import iterate_tags
+from web_element import color_element
 
 def generate_elements(webelement):
 	element_src = ''
@@ -18,16 +19,6 @@ def generate_elements(webelement):
 
 		yield css_src, element_src
 
-
-def iterate_tags(tags):
-	if len(tags) == 0:
-		yield [ ]
-	else:
-		tag = tags[0]
-		for val in tag.get_values():
-			for othet_tags in iterate_tags(tags[1:]):
-				yield [ [ tag.name, val ] ] + othet_tags
-
 if __name__ == '__main__':
-	for css_src, elem_src in generate_elements(color):
+	for css_src, elem_src in generate_elements(color_element):
 		print(css_src, '\n' * 3, elem_src)
