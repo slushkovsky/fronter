@@ -1,6 +1,8 @@
 from tags_utils import iterate_tags
 from web_element import color_element
 
+from designed_element import DesignedElement
+
 def generate_elements(webelement):
 	element_src = ''
 
@@ -17,7 +19,7 @@ def generate_elements(webelement):
 			css_src += '\t{0}: {1};\n'.format(tag[0], tag[1])
 		css_src += '}'
 
-		yield css_src, element_src
+		yield DesignedElement(css_src, element_src)
 
 if __name__ == '__main__':
 	for css_src, elem_src in generate_elements(color_element):
