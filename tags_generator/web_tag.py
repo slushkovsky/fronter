@@ -52,3 +52,11 @@ class WebTag(object):
 			return [ "'Times New Roman', Times, serif" ]
 		elif tag_type == TagType.complex_tag:
 			return None
+
+color_tag = WebTag('color', TagType.color)
+
+opacity_tag = WebTag('opacity', TagType.float_int)
+border_style_tag = WebTag('border-style', TagType.unknown, 
+	[ 'none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset' ]
+)
+
