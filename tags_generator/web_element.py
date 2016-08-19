@@ -1,5 +1,5 @@
-from web_tag import *
-from multi_web_tag import *
+from css_param import *
+from multi_css_param import *
 
 class WebElement(object):
 	"""This class describes, which arguments iterate and how"""

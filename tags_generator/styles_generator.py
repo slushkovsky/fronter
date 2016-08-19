@@ -1,4 +1,4 @@
-from tags_utils import iterate_tags
+from style_utils import iterate_styles
 
 from web_element import WebElement
 from web_element import color_element
@@ -23,7 +23,7 @@ def generate_elements(webelement):
 
 	element_src = element_src.format(webelement.name, webelement.content)
 
-	for tags in iterate_tags(webelement.webtags):
+	for tags in iterate_styles(webelement.webtags):
 		css_src = '{\n'
 		for tag in tags:
 			css_src += '\t{0}: {1};\n'.format(tag[0], tag[1])
