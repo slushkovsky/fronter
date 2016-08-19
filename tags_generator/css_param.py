@@ -22,24 +22,24 @@ class CSSParamType(Enum):
 
 class CSSParam(object):
 	"""This class describes some tag for web element"""
-	def __init__(self, name, tag_type, values=None):
+	def __init__(self, name: str, css_type: CSSParamType, values=None):
 		'''
 			Creates new CSSParam object
 
-			@name - name of tag
-			@tag_type - name of tag_type
-			@values - values that can be for such tag (If None will use default for tag_type)
+			@name <str> - name of tag
+			@css_type <CSSParamType> - name of css_type
+			@values <iterable or None> - values that can be for such tag
 		'''
 
 		assert isinstance(name, str)
-		assert isinstance(tag_type, CSSParamType)
+		assert isinstance(css_type, CSSParamType)
 
 		super(CSSParam, self).__init__()
 		self.name = name
-		self.tag_type = tag_type
+		self.css_type = css_type
 
 		if values == None:
-			values = CSSParam.get_standart_values(tag_type)
+			values = CSSParam.get_standart_values(css_type)
 
 		self.values = values
 
@@ -51,31 +51,31 @@ class CSSParam(object):
 			yield v
 
 	@staticmethod
-	def get_standart_values(tag_type):
+	def get_standart_values(css_type: CSSParamType):
 		'''
 			Gets default values for specified tag
 
-			@tag_type - Type of tag
+			@css_type <CSSParamType> - Type of tag
 		'''
 
-		assert isinstance(tag_type, CSSParamType)
+		assert isinstance(css_type, CSSParamType)
 
 		# TODO: Convert all to generators i think
-		if tag_type == CSSParamType.integer or tag_type == CSSParamType.integer_px:
+		if css_type == CSSParamType.integer or css_type == CSSParamType.integer_px:
 			return list(range(72))
-		elif tag_type == CSSParamType.procent:
+		elif css_type == CSSParamType.procent:
 			return list(range(1, 100))
-		elif tag_type == CSSParamType.float_int:
+		elif css_type == CSSParamType.float_int:
 			return [ 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1 ]
-		elif tag_type == CSSParamType.color:
+		elif css_type == CSSParamType.color:
 			return [ 'black', 'red', 'green', 'white' ]
-		elif tag_type == CSSParamType.decoration:
+		elif css_type == CSSParamType.decoration:
 			return [ 'none', 'underline', 'line-through' ]
-		elif tag_type == CSSParamType.font_style:
+		elif css_type == CSSParamType.font_style:
 			return [ 'normal', 'italic' ]
-		elif tag_type == CSSParamType.font_family:
+		elif css_type == CSSParamType.font_family:
 			return [ "'Times New Roman', Times, serif" ]
-		elif tag_type == CSSParamType.complex_tag:
+		elif css_type == CSSParamType.complex_tag:
 			return None
 		else:
 			return None

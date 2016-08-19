@@ -1,8 +1,8 @@
-def iterate_styles(styles):
+def iterate_styles(styles: list):
 	'''
 		Generates all values fot speciefed array of styles
 
-		@styles - list of web styles
+		@styles <list> - list of web styles
 	'''
 
 	if len(styles) == 0:

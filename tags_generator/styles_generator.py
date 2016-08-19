@@ -5,11 +5,11 @@ from web_element import color_element
 
 from designed_element import DesignedElement
 
-def generate_elements(webelement):
+def generate_elements(webelement: WebElement):
 	'''
 		Generates designed elements from webelement template
 
-		@webelement - Template of web element
+		@webelement <WebElement> - Template of web element
 	'''
 
 	assert isinstance(webelement, WebElement)

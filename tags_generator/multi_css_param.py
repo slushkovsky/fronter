@@ -4,12 +4,12 @@ from css_param import *
 
 class MultiCSSParam(CSSParam):
 	"""CSSParam that has multiply tags inside (border as example)"""
-	def __init__(self, name, *css_params):
+	def __init__(self, name: str, *css_params):
 		'''
 			Creates new MultiCSSParam
 
-			@name - Name of the tag
-			@css_params - Tags of the tag
+			@name <str> - Name of the tag
+			@css_params <list> - Tags of the tag
 		'''
 		super(MultiCSSParam, self).__init__(name, CSSParamType.complex_tag)
 
