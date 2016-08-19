@@ -1,9 +1,19 @@
 from tags_utils import iterate_tags
+
+from web_element import WebElement
 from web_element import color_element
 
 from designed_element import DesignedElement
 
 def generate_elements(webelement):
+	'''
+		Generates designed elements from webelement template
+
+		@webelement - Template of web element
+	'''
+
+	assert isinstance(webelement, WebElement)
+
 	element_src = ''
 
 	if webelement.content:
@@ -22,5 +32,5 @@ def generate_elements(webelement):
 		yield DesignedElement(css_src, element_src)
 
 if __name__ == '__main__':
-	for css_src, elem_src in generate_elements(color_element):
-		print(css_src, '\n' * 3, elem_src)
+	for element in generate_elements(color_element):
+		pass
