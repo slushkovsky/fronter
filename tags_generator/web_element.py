@@ -1,5 +1,4 @@
-from css_param import *
-from multi_css_param import *
+from default_styles import *
 
 class WebElement(object):
 	"""This class describes, which arguments iterate and how"""

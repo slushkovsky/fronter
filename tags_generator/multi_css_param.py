@@ -21,18 +21,3 @@ class MultiCSSParam(CSSParam):
 		'''
 		for tags in iterate_styles(self.css_params):
 			yield ' '.join(str(t[1]) for t in tags)
-
-shadow_tag = MultiCSSParam(
-	'box-shadow',
-	CSSParam('x', CSSParamType.integer),
-	CSSParam('y', CSSParamType.integer),
-	CSSParam('radius', CSSParamType.integer_px),
-	CSSParam('stretching', CSSParamType.integer),
-	color_tag
-)
-border_tag = MultiCSSParam(
-	'border',
-	CSSParam('border-width', CSSParamType.integer_px),
-	border_style_tag,
-	color_tag
-)

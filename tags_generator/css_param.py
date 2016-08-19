@@ -79,11 +79,3 @@ class CSSParam(object):
 			return None
 		else:
 			return None
-
-color_tag = CSSParam('color', CSSParamType.color)
-
-opacity_tag = CSSParam('opacity', CSSParamType.float_int)
-border_style_tag = CSSParam('border-style', CSSParamType.unknown, 
-	[ 'none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset', 'outset' ]
-)
-
