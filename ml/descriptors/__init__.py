@@ -26,3 +26,5 @@ def img_descriptor(name: str):
 	return decorator
 
 from . import lbp
+from . import symb_height
+from . import symb_lbp

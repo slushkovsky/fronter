@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Created on Wed Aug 17 19:29:33 2016
+Created on Sun Aug 21 18:08:01 2016
 
 @author: chernov
 """
@@ -13,6 +13,8 @@ import codecs
 from os import path, listdir
 from PIL import Image
 from argparse import ArgumentParser
+
+import numpy as np
 
 main_dir = path.dirname(path.dirname(__file__))
 if not main_dir in sys.path: sys.path.append(main_dir)
@@ -59,10 +61,9 @@ if __name__  == '__main__':
                 font_size = float(css["fontSize"].replace("px", ""))
                 
                 response = font_size
-                
                 descr = None
                 try:
-                    descr = descr = image_descriptors[args.descr](img)[0]
+                    descr = np.concatenate(image_descriptors[args.descr](img))
                 except Exception as e:
                     print("%s Execption: %s"%(image_path, e))
                     continue
@@ -74,4 +75,3 @@ if __name__  == '__main__':
             writer.writerows(csv_rows)
     
     train_mlp_float(args.csv, args.output)
-    

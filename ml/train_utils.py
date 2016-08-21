@@ -11,18 +11,17 @@ import json
 import cv2
 import numpy as np
 
-def load_base(fn, dataset_dict=None):
-    if dataset_dict:
+def load_base(fn, dataset_dict=None, out_n=1):
+    if not dataset_dict is None:
         class_dict = json.load(open(dataset_dict, "r"))
         class_n = len(class_dict)
         a = np.loadtxt(fn, np.float32, delimiter=',',
                        converters={ 0 : lambda ch : class_dict[ch.decode()]})
-        samples, responses = a[:,1:], a[:,0]
-
+        samples, responses = a[:, 1:], a[:, 0]
         return samples, responses, class_n
     else:
         a = np.loadtxt(fn, np.float32, delimiter=',')
-        samples, responses = a[:,1:], a[:,0]
+        samples, responses = a[:, out_n:], a[:, 0:out_n]
         return samples, responses
 
 
@@ -76,12 +75,13 @@ class MLP(LetterStatModel):
         
 
 class MLPFloat(LetterStatModel):
-    def __init__(self):
+    def __init__(self, out_n):
+        self.out_n = out_n
         self.model = cv2.ml.ANN_MLP_create()
 
     def train(self, samples, responses):
         sample_n, var_n = samples.shape
-        layer_sizes = np.int32([var_n, 100, 100, 1])
+        layer_sizes = np.int32([var_n, 100, 100, 20, self.out_n])
 
         self.model.setLayerSizes(layer_sizes)
         self.model.setTrainMethod(cv2.ml.ANN_MLP_BACKPROP)
@@ -89,8 +89,11 @@ class MLPFloat(LetterStatModel):
         self.model.setBackpropWeightScale(0.01)
         self.model.setTermCriteria((cv2.TERM_CRITERIA_COUNT, 20, 0.01))
         self.model.setActivationFunction(cv2.ml.ANN_MLP_SIGMOID_SYM, 2, 1)
+        
+        samples = np.array(samples, np.float32)
+        responses = np.array(responses, np.float32)
 
-        self.model.train(samples, cv2.ml.ROW_SAMPLE, np.float32(responses))
+        self.model.train(samples, cv2.ml.ROW_SAMPLE, responses)
 
     def predict(self, samples):
         ret, resp = self.model.predict(samples)
@@ -98,9 +101,10 @@ class MLPFloat(LetterStatModel):
         
         
 def train_mlp_float(csv_file, outfile):
-    samples, responses = load_base(csv_file)
+    out_n = 1
+    samples, responses = load_base(csv_file, out_n=out_n)
     
-    model = MLPFloat()
+    model = MLPFloat(out_n)
     
     train_n = int(len(samples)*model.train_ratio)
     
