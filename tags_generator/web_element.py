@@ -1,5 +1,5 @@
 class WebElement(object):
-	"""This class describes, which arguments iterate and how"""
+	'''This class describes, which arguments iterate and how'''
 	def __init__(self, name: str, content: str, *webtags):
 		'''
 			Creates new WebElement

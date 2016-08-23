@@ -21,7 +21,7 @@ class CSSParamType(Enum):
 
 
 class CSSParam(object):
-	"""This class describes some tag for web element"""
+	'''This class describes some tag for web element'''
 	def __init__(self, name: str, css_type: CSSParamType, values=None):
 		'''
 			Creates new CSSParam object

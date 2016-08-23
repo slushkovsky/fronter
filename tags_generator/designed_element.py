@@ -1,5 +1,5 @@
 class DesignedElement(object):
-	"""Stores css and element code for some designed element"""
+	'''Stores css and element code for some designed'''
 	def __init__(self, css_src: str, element_src: str):
 		'''
 			Creates new DesignedElement
