@@ -1,6 +1,7 @@
 from style_utils import iterate_styles
 
-from css_param import *
+from css_param import CSSParam
+from css_param import CSSParamType
 
 class MultiCSSParam(CSSParam):
 	"""CSSParam that has multiply tags inside (border as example)"""

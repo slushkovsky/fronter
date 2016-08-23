@@ -1,7 +1,7 @@
 from style_utils import iterate_styles
 
 from web_element import WebElement
-from web_element import color_element
+from default_elements import color_element
 
 from designed_element import DesignedElement
 

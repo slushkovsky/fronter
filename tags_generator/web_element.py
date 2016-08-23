@@ -1,5 +1,3 @@
-from default_styles import *
-
 class WebElement(object):
 	"""This class describes, which arguments iterate and how"""
 	def __init__(self, name: str, content: str, *webtags):
@@ -19,9 +17,3 @@ class WebElement(object):
 		self.content = content
 		self.webtags = webtags
 		
-color_element = WebElement(
-		'body',
-		None,
-		opacity_tag,
-		border_tag
-	)
