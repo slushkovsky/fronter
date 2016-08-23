@@ -38,8 +38,10 @@ class CSSParam(object):
 		self.name = name
 		self.css_type = css_type
 
-		if values == None:
+		if values is None:
 			values = CSSParam.get_standart_values(css_type)
+		else:
+			isinstance(values, list)
 
 		self.values = values
 
