@@ -7,7 +7,7 @@ class CSSParamType(Enum):
 	unknown = 0
 
 	integer = 1
-	procent = 2
+	percent = 2
 	float_int = 3
 	integer_px = 4
 
@@ -63,7 +63,7 @@ class CSSParam(object):
 		# TODO: Convert all to generators i think
 		if css_type == CSSParamType.integer or css_type == CSSParamType.integer_px:
 			return list(range(72))
-		elif css_type == CSSParamType.procent:
+		elif css_type == CSSParamType.percent:
 			return list(range(1, 100))
 		elif css_type == CSSParamType.float_int:
 			return [ 0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1 ]
