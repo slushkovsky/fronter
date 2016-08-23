@@ -11,7 +11,7 @@ class MultiCSSParam(CSSParam):
 			@name <str> - Name of the tag
 			@css_params <list> - Tags of the tag
 		'''
-		super(MultiCSSParam, self).__init__(name, CSSParamType.complex_tag)
+		super().__init__(name, CSSParamType.complex_tag)
 
 		self.css_params = css_params
 

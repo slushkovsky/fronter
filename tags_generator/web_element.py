@@ -13,7 +13,7 @@ class WebElement(object):
 		assert isinstance(name, str)
 		assert isinstance(content, str) or content == None
 
-		super(WebElement, self).__init__()
+		super().__init__()
 
 		self.name = name
 		self.content = content

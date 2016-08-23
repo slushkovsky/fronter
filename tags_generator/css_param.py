@@ -34,7 +34,7 @@ class CSSParam(object):
 		assert isinstance(name, str)
 		assert isinstance(css_type, CSSParamType)
 
-		super(CSSParam, self).__init__()
+		super().__init__()
 		self.name = name
 		self.css_type = css_type
 
