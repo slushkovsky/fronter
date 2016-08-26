@@ -10,3 +10,7 @@ vevn/
 
 # 3.x
 __pycache__
+
+#Qt
+
+*.user
