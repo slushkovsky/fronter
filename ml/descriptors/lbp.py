@@ -16,7 +16,7 @@ def lbp(img:        PIL.Image,
     gray = img.convert('L')
     np_img = np.asarray(gray)
 
-    lbp = local_binary_pattern(gray, dimensions, radius)
+    lbp = local_binary_pattern(gray, dimensions, radius, method="uniform")
     
     # if __DEBUG__:
     #     lbp_bytes = lbp.astype(np.float)/lbp.max()
