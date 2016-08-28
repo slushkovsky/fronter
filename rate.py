@@ -3,8 +3,8 @@ import os
 import argparse
 import cv2
 
-from rate_utils import img_pixel_comparise, img_edges_comparise \
-                                          , compare_img_with_html
+from rate_utils import img_pixel_comparise, img_edges_comparise
+import function_wrappers as wrap
 
 
 def existed_file_type(value):
@@ -14,7 +14,7 @@ def existed_file_type(value):
 
 def arguments():
     parser = argparse.ArgumentParser(description ='This script allows' +
-                            ' you to download scrinshot of web page')
+                            ' you to download screenshot of web page')
 
     parser.add_argument('html_path', type = str
             , help = 'Enter path to html code of page to comparise.' +
@@ -27,10 +27,11 @@ def arguments():
 if __name__ == '__main__':
     try:
         args = arguments()
-        print('Pixel compare : %f' % compare_img_with_html(
+        print('Pixel compare : ', wrap.img_path_and_html(
                  args.sample_path, args.html_path, img_pixel_comparise))
-        print('Edges compare : %f' % compare_img_with_html(
+        print('Edges compare : ', wrap.img_path_and_html(
                  args.sample_path, args.html_path, img_edges_comparise))
+        
 
     except KeyboardInterrupt:
         print('\nExiting')

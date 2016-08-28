@@ -1,3 +1,5 @@
+import os
+
 import numpy as np
 
 def is_image(obj):
@@ -14,6 +16,11 @@ def is_image(obj):
         return len(obj.shape) in [2, 3]
     else:
         return False
+
+def is_existed_path(obj):
+    if isinstance(obj, str):
+        return os.path.exists(obj)
+    return False
 
 def is_pixel(obj):
     ''' 

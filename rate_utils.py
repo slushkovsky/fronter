@@ -150,32 +150,6 @@ def img_pixel_comparise(sample, img, width=300
            diff += diff_func(sample[x][y], img[x][y]) 
     return 1.0 - diff / max_diff
 
-def html_pixel_comparise(sample_path, html_path):
-    ''' 
-    This is the function that aims to compute percentage of matched 
-    pixels in a two given images. Both images is generating 
-    from html code.
-
-    Parameters
-    ----------
-    @sample_path  <cv2.image>  Path to the sample image
-    @html_path    <cv2.image>  Path to the html code 
-                                                of image to comparison
-    ----------
-    Return       <float>      Percentage of matching from [0, 1]
-    '''
-    assert isinstance(sample_path, str)
-    assert isinstance(html_path, str)
-
-    driver = Driver()
-    try:
-        img = make_screenshot(html_path, driver=driver)
-        sample = make_screenshot(sample_path, driver=driver)
-    finally:
-        driver.close()
-
-    return img_pixel_comparise(sample, img)
-
 def img_edges_comparise(sample, img, tresholds=(50, 100), width=50):
     ''' 
     This is the function that aims to compute percentage of 
@@ -203,27 +177,3 @@ def img_edges_comparise(sample, img, tresholds=(50, 100), width=50):
     return img_pixel_comparise(smp_edges, img_edges
                                     , max_diff_func=max_diff_func_edges
                                     , diff_func=diff_func_color)
-
-def compare_img_with_html(sample_path, html_path, img_comp_func):
-    ''' 
-    This is the function that aims to compute percentage of 
-    matched pixels in a two given images. Sample image is reading from 
-    specified path. Image for comparison is generating from html code.
-
-    Parameters
-    ----------
-    @sample_path    <cv2.image>  Path to the sample image
-    @html_path      <cv2.image>  Path to the html code 
-                                                of image to comparison
-    @img_comp_func  <function>   Function which takes two image and 
-                                                        compare them
-    ----------
-    Return          <float>      Percentage of matching from [0, 1]
-    '''
-    assert isinstance(sample_path, str)
-    assert isinstance(html_path, str)
-    assert inspect.isfunction(img_comp_func)
-
-    sample = cv2.imread(sample_path)
-    img = make_screenshot(html_path)
-    return img_comp_func(sample, img)
