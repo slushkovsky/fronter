@@ -28,13 +28,8 @@ def arguments():
 if __name__ == '__main__':
     try:
         args = arguments()
-        '''
-        img_path(args.path1
-                                            , args.path2
-                                            , mismatch_edges_images)
-        '''
-        cv2.imshow('Mismatch', 
-                        img_path(args.path1, args.path2, mismatch_mask))
+        cv2.imshow('Match', img_path(args.path1, args.path2
+                                               , mismatch_mask))
         cv2.waitKey(WAITING_TIME)
         
     except KeyboardInterrupt:

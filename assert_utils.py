@@ -24,7 +24,7 @@ def is_existed_path(obj):
 
 def is_pixel(obj):
     ''' 
-    Check if object is a pixel(opencv in particular) 
+    Check if object is a pixel (opencv in particular) 
     
     Parameters
     ----------
@@ -32,12 +32,12 @@ def is_pixel(obj):
     ----------
     Return <bool>
     '''
-    if isinstance(obj, (np.ndarray, list)):
+    if isinstance(obj, np.ndarray):
         for ch in obj:
-            if not isinstance(ch, (int, float, np.uint8)):
+            if not isinstance(ch, np.uint8):
                 return False
         return True
-    return isinstance(obj, (int, float, np.uint8))
+    return isinstance(obj, np.uint8)
 
 def is_tuple(obj, need_len, need_type):
     ''' 
