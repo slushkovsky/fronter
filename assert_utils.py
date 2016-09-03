@@ -1,6 +1,8 @@
 import os
+import inspect
 
 import numpy as np
+import cv2
 
 def is_image(obj):
     ''' 
@@ -18,6 +20,15 @@ def is_image(obj):
         return False
 
 def is_existed_path(obj):
+    ''' 
+    Check if object is an existed path
+    
+    Parameters
+    ----------
+    @obj <any_type>     An object
+    ----------
+    Return <bool>
+    '''
     if isinstance(obj, str):
         return os.path.exists(obj)
     return False
@@ -32,12 +43,41 @@ def is_pixel(obj):
     ----------
     Return <bool>
     '''
-    if isinstance(obj, np.ndarray):
+    if isinstance(obj, (np.ndarray, list, np.array)):
         for ch in obj:
-            if not isinstance(ch, np.uint8):
+            if not isinstance(ch, (np.uint8, int, float)):
                 return False
         return True
-    return isinstance(obj, np.uint8)
+    return isinstance(obj, (np.uint8, int))
+
+def is_list_of(obj, func=None, need_type=None):
+    ''' 
+    Check if object is a list of specifyed type. Also you can specify a 
+    assert_utils function to check list objects. You shold specify type 
+    or function!
+    
+    Parameters
+    ----------
+    @obj        <any_type>       An object
+    @func       <function>       assert_utils function
+    @need_type  <class type>     Type of elemets
+    ----------
+    Return <bool>
+    '''
+    assert inspect.isfunction(func) or func is None
+    assert isinstance(need_type, type) or need_type is None
+    assert (need_type == None) != (func == None)
+    
+    if isinstance(obj, (list, np.ndarray, np.array)):
+        for ob in obj:
+            if func != None:
+                if not func(ob):
+                    return False
+            else:
+                if not isinstance(ob, need_type):
+                    return False
+            return True
+    return False
 
 def is_tuple(obj, need_len, need_type):
     ''' 

@@ -6,7 +6,6 @@ import numpy as np
 
 from assert_utils import is_image, is_tuple, has_pixel_ch
 
-
 EXCESS_ELEMENTS_COLOR = np.array([0, 0, 255])
 DEFICIT_ELEMENTS_COLOR = np.array([0, 255, 0])
 SHIFTED_ELEMENTS_COLOR = (53, 167, 255)
@@ -88,7 +87,7 @@ def apply_mask(image, mask, color):
                 image[x][y] = color
     return image
 
-def cv_match(img1, img2, good_match=0.5):
+def cv_match(img1, img2, good_match=0.5, neiberhoods=2):
     '''
     Detect matching between two images.
 
@@ -114,15 +113,16 @@ def cv_match(img1, img2, good_match=0.5):
 
     # BFMatcher with default params
     bf = cv2.BFMatcher()
-    matches = bf.knnMatch(des1,des2, k=2)
+    matches = bf.knnMatch(des1,des2, k=neiberhoods)
 
     # Apply ratio test
     good = []
-    for m,n in matches:
+    for m, n in matches:
         if m.distance < good_match * n.distance:
             good.append(m)
     return kp1, kp2, good
-        
+
+
 def shift_detector(img1, img2, max_radius=MAX_DETECT_RADIUS
                               , min_radius=MIN_DETECT_RADIUS):
     '''
@@ -143,8 +143,8 @@ def shift_detector(img1, img2, max_radius=MAX_DETECT_RADIUS
 
     kp1, kp2, match = cv_match(img1, img2)
     
-    shifted = []
     #delete matching elements, which has the same coordinates
+    shifted = []
     for m in match:
         point1, point2 = kp1[m.queryIdx], kp2[m.trainIdx]   #in doubt
         x1, y1 = point1.pt 
@@ -153,6 +153,7 @@ def shift_detector(img1, img2, max_radius=MAX_DETECT_RADIUS
         dist = sqrt((x1 - x2)**2 + (y1 - y2)**2)
         if dist >= min_radius and dist <= max_radius:
             shifted.append(((x1, y1), (x2, y2)))
+
     return shifted
 
 def mismatch_mask(sample, image, tresholds=DEFAULT_TRESHOLDS):
