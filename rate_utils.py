@@ -11,6 +11,7 @@ from pixel_difference import *
 
 SLEEPING_TIME = 3   #sec.
 DEFAULT_SCRN_PATH = '.temporary_sreenshot'
+DEFAULT_WIDTH = 200
 
 
 #DO NOT FORGOT TO CLOSE BROWSER AFTER USING!
@@ -109,7 +110,7 @@ def resize_img_w(img, new_w):
     scale = new_w / img.shape[1]
     return cv2.resize(img, None, fx=scale, fy=scale)
 
-def img_pixel_comparise(sample, img, width=300
+def img_pixel_comparise(sample, img, width=DEFAULT_WIDTH
                                     , max_diff_func=max_diff_func_color
                                     , diff_func=diff_func_color):
     '''
@@ -150,7 +151,8 @@ def img_pixel_comparise(sample, img, width=300
            diff += diff_func(sample[x][y], img[x][y]) 
     return 1.0 - diff / max_diff
 
-def img_edges_comparise(sample, img, tresholds=(50, 100), width=50):
+def img_edges_comparise(sample, img, tresholds=(50, 100)
+                                                , width=DEFAULT_WIDTH):
     ''' 
     This is the function that aims to compute percentage of 
     matched in a two given images.
@@ -174,6 +176,31 @@ def img_edges_comparise(sample, img, tresholds=(50, 100), width=50):
     treshold1, treshold2 = tresholds
     img_edges = cv2.Canny(img, treshold1, treshold2)
     smp_edges = cv2.Canny(sample, treshold1, treshold2)
-    return img_pixel_comparise(smp_edges, img_edges
+    return img_pixel_comparise(smp_edges, img_edges, width=width
                                     , max_diff_func=max_diff_func_edges
+                                    , diff_func=diff_func_color)
+
+def img_grad_comparise(sample, img, width=DEFAULT_WIDTH):
+    ''' 
+    This is the function that aims to compute percentage of colors
+    matched in a two given images.
+
+    Parameters
+    ----------
+    @sample     <cv2.image>  Sample image
+    @img        <cv2.image>  Image for comparison
+    @width      <int>        Width of resized image, before comparise.
+                            If 0 - no resize
+    ----------
+    Return  <float>      Percentage of matching from [0, 1]
+    '''
+    assert is_image(sample) and is_image(img)
+    assert isinstance(width, int)
+    
+    h, w = sample.shape[0], sample.shape[1]
+    img = cv2.resize(img, (w, h))
+    smp_grad = cv2.Laplacian(sample, cv2.CV_64F)
+    img_grad = cv2.Laplacian(img, cv2.CV_64F)
+    return img_pixel_comparise(smp_grad, img_grad, width=width
+                                    , max_diff_func=max_diff_func_color
                                     , diff_func=diff_func_color)

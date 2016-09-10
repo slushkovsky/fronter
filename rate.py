@@ -3,7 +3,8 @@ import os
 import argparse
 import cv2
 
-from rate_utils import img_pixel_comparise, img_edges_comparise
+from rate_utils import img_pixel_comparise, img_edges_comparise, \
+                                                    img_grad_comparise
 import function_wrappers as wrap
 
 
@@ -27,10 +28,12 @@ def arguments():
 if __name__ == '__main__':
     try:
         args = arguments()
-        print('Pixel compare : ', wrap.img_path_and_html(
+        print('Pixel    compare : ', wrap.img_path_and_html(
                  args.sample_path, args.html_path, img_pixel_comparise))
-        print('Edges compare : ', wrap.img_path_and_html(
+        print('Edges    compare : ', wrap.img_path_and_html(
                  args.sample_path, args.html_path, img_edges_comparise))
+        print('Gradient compare : ', wrap.img_path_and_html(
+                 args.sample_path, args.html_path, img_grad_comparise))
         
 
     except KeyboardInterrupt:

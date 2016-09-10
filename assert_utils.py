@@ -43,7 +43,7 @@ def is_pixel(obj):
     ----------
     Return <bool>
     '''
-    if isinstance(obj, (np.ndarray, list, np.array)):
+    if isinstance(obj, (np.ndarray, list)):
         for ch in obj:
             if not isinstance(ch, (np.uint8, int, float)):
                 return False
