@@ -17,7 +17,8 @@ DEFAULT_WIDTH = 200
 #DO NOT FORGOT TO CLOSE BROWSER AFTER USING!
 Driver = webdriver.Firefox
 
-def make_screenshot(url, path=DEFAULT_SCRN_PATH, driver=None):
+def make_screenshot(url, path=DEFAULT_SCRN_PATH, driver=None,
+                                            sleep_time=SLEEPING_TIME):
     ''' 
     Save screenshot of page with url to path 
     
@@ -34,6 +35,8 @@ def make_screenshot(url, path=DEFAULT_SCRN_PATH, driver=None):
     assert isinstance(url, str)
     assert isinstance(path, str)
     assert isinstance(driver, webdriver.Remote) or driver is None
+    assert isinstance(sleep_time, int)
+    assert sleep_time >= 0
 
     driver_sp = driver is not None
     need_save = (path != DEFAULT_SCRN_PATH)
@@ -42,7 +45,7 @@ def make_screenshot(url, path=DEFAULT_SCRN_PATH, driver=None):
         driver = Driver() 
     try:
         driver.get(url)
-        sleep(SLEEPING_TIME)
+        sleep(sleep_time)
         driver.get_screenshot_as_file(path)
     finally:
         if not driver_sp:
